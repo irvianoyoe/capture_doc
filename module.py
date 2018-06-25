@@ -1,4 +1,11 @@
-# credit card ocr basic: https://www.pyimagesearch.com/2017/07/17/credit-card-ocr-with-opencv-and-python/
+# module 1 image cropping
+#
+# deskripsi: untuk mengcrop image secara otomatis terhadap ktp folder src
+# input : folder src gambar .jpg
+# output: folder out hasil cropping
+#
+# author: @kvkr
+# referensi: credit card ocr *basic: https://www.pyimagesearch.com/2017/07/17/credit-card-ocr-with-opencv-and-python/
 from imutils import contours
 import numpy as np
 import argparse
@@ -28,10 +35,10 @@ for (i, c) in enumerate(refCnts):
 	digits[i] = roi
 
 #set kernel
-rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 4))
+rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 7))
 sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
 
-#read folder
+#u read folder
 images = [cv2.imread(file) for file in glob.glob("src/*.jpg")]
 
 counter = 0
@@ -90,6 +97,7 @@ for image in images:
 	#print(locs)
 	(x,y,w,h) = locs[0]
 	img = image[y:y+h,x:x+w]
+	
 	#img = imutils.resize(img, height=35, width=285)
 	name = "out"+`counter`
 	counter += 1

@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 from imutils import contours
 import imutils
 
-img = cv2.imread("out/out0.png",0)
+img = cv2.imread("out/out4.png",0)
 img = cv2.medianBlur(img,3)
 #img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 kernel = np.ones((2,2),np.uint8)
@@ -31,8 +31,20 @@ blur2 = cv2.GaussianBlur(dilation,(3,3),0)
 
 #blur3 = cv2.medianBlur(erosion,3)
 
+#dst = cv2.copyMakeBorder(src, 0, 0, 10, 10, cv2.BORDER_REPLICATE, None, 0) #cv2.BORDER_CONSTANT / cv2.BORDER_REPLICATE
+h = img.shape[0]
+w = img.shape[1]
 
 
-cv2.imwrite("out/test.png", blur2)
-cv2.imshow("th3", dst)
+border = int((40-h)/2)
+if h<30:
+	img = cv2.copyMakeBorder(blur2, border, border, 10, 10, cv2.BORDER_CONSTANT, None, 0)
+if h<40:
+	img = cv2.copyMakeBorder(blur2, border, border, 10, 10, cv2.BORDER_CONSTANT, None, 0)
+else:
+	img = cv2.copyMakeBorder(blur2, 0, 0, 10, 10, cv2.BORDER_CONSTANT, None, 0)
+
+
+cv2.imwrite("out/test.png", img)
+cv2.imshow("th3", img)
 cv2.waitKey(0)
