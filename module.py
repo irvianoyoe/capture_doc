@@ -102,5 +102,5 @@ for image in images:
 	name = "out"+`counter`
 	counter += 1
 	cv2.imwrite("out/"+name+".png", img)
-	#cv2.imshow("th3", rec)
+	#cv2.imshow("th3", gray)
 	cv2.waitKey(0)
