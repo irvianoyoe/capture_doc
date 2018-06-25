@@ -13,7 +13,7 @@ import imutils
 import glob
 
 #u read folder
-images = [cv2.imread(file,0) for file in glob.glob("out/out_transform/*.png")]
+images = [cv2.imread(file,0) for file in glob.glob("out/ktp/transform/*.png")]
 counter = 0
 
 for img in images:

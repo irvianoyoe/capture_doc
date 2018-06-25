@@ -21,7 +21,7 @@ sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7))
 counter = 0
 
 #ngambil image
-image = cv2.imread("src_srut/26042018100945-0001-1.jpg")
+image = cv2.imread("src/srut/26042018100945-0001-1.jpg")
 #image = imutils.resize(image, width=300)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 inv = cv2.threshold(gray, 127, 250, cv2.THRESH_BINARY_INV)[1]
@@ -77,6 +77,6 @@ img = image[y:y+h,x:x+w]
 #img = imutils.resize(img, height=35, width=285)
 name = "out"+`counter`
 counter += 1
-cv2.imwrite("out_srut/"+name+".png", img)
+cv2.imwrite("out/srut/"+name+".png", img)
 #cv2.imshow("th3", img)
 cv2.waitKey(0)

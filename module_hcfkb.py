@@ -14,8 +14,8 @@ import cv2
 import glob
 
 #set kernel
-rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 6))
-sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 12))
+rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1))
 
 #read file
 counter = 0
@@ -78,5 +78,5 @@ print(locs)
 #name = "out"+`counter`
 #counter += 1
 #cv2.imwrite("out_srut/"+name+".png", img)
-cv2.imshow("th3", tophat)
+cv2.imshow("th3", thresh)
 cv2.waitKey(0)

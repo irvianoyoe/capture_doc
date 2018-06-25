@@ -39,7 +39,7 @@ rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 7))
 sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
 
 #u read folder
-images = [cv2.imread(file) for file in glob.glob("src/*.jpg")]
+images = [cv2.imread(file) for file in glob.glob("src/ktp/*.jpg")]
 
 counter = 0
 for image in images:
@@ -101,6 +101,6 @@ for image in images:
 	#img = imutils.resize(img, height=35, width=285)
 	name = "out"+`counter`
 	counter += 1
-	cv2.imwrite("out/"+name+".png", img)
+	cv2.imwrite("out/ktp/"+name+".png", img)
 	#cv2.imshow("th3", gray)
 	cv2.waitKey(0)
