@@ -103,5 +103,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# pyc
-.pyc
+# tf file
+*.tfrecord
+
+#dataset ignore
+resized_image/
+backup/
