@@ -4,13 +4,13 @@ github Project Capture Dokumen Magang PT Premier Optima Sattiga
 ## Progress
 - [x] cropping ktp
 - [ ] enhance image
-- [x] created dataset *di folder dataset*
+- [x] created dataset #*di folder dataset*
 - [ ] deep learning ktp
 
 ## Run 
-1. python module.py *cropping_ktp*
-2. python module_2.py *transfomasi_ktp_hitam_putih*
-3. python module_3.py *enhance_dan_bikin_dataset*
+1. python module.py #*cropping_ktp*
+2. python module_2.py #*transfomasi_ktp_hitam_putih*
+3. python module_3.py #*enhance_dan_bikin_dataset*
 
 ## Note 
 - please use it with resposible
