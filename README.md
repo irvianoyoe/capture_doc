@@ -13,7 +13,7 @@ github Project Capture Dokumen Magang PT Premier Optima Sattiga
 - [ ] created dataset 
 - [ ] deep learning 
 ### hasil cek fisik kendaraan
-- [x] cropping 
+- [ ] cropping 
 - [ ] enhance image 
 - [ ] created dataset 
 - [ ] deep learning 
