@@ -2,15 +2,12 @@
 github Project Capture Dokumen Magang PT Premier Optima Sattiga
 
 ## Progress
-### ktp
-- [x] cropping ktp
-- [ ] enhance image
-- [x] created dataset #*di folder dataset*
-- [ ] deep learning ktp
-### srut
-- [x] cropping
-### hcfkb
-- [ ] cropping
+ktp | srut | hcfkb
+------------ | ------------- | -------------
+- [x] cropping | - [x] cropping | - [ ] cropping
+- [ ] enhance image | - [ ] enhance | - [ ] enhance
+- [x] created dataset #*di folder dataset* | - [ ] dataset | - [ ] dataset
+- [ ] deep learning | - [ ] deep learning | - [ ] deep learning
 
 ## Run 
 1. python module.py #*cropping_ktp*
