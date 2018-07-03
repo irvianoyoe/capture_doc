@@ -1,32 +1,15 @@
-# Capture_doc
-github Project Capture Dokumen Magang PT Premier Optima Sattiga
+# KTP OCR NIK extractor with GUI
+melakukan ekstraksi data NIK kedalam angka yang disimpan dalam output.txt
 
-## Progress
-### ktp 
-- [x] cropping 
-- [ ] enhance image 
-- [x] created dataset #*di folder dataset* 
-- [ ] deep learning 
-### srut
-- [x] cropping 
-- [ ] enhance image 
-- [ ] created dataset 
-- [ ] deep learning 
-### hasil cek fisik kendaraan
-- [ ] cropping 
-- [ ] enhance image 
-- [ ] created dataset 
-- [ ] deep learning 
+## depedency
+* python 3.x
+* opencv-python
+* pytesseract
+* wxpython
 
-## Run 
-1. python module.py #*cropping_ktp*
-2. python module_2.py #*transfomasi_ktp_hitam_putih*
-3. python module_3.py #*enhance_dan_bikin_dataset*
-
-## Note 
-- please use it with resposible
-- monggo di git clone
-- kalau mau make github ini silahkan gunakan branch lain (selain master) git checkout `<branchname>`
-- branch master digunakan untuk update kodingan saya saja 
-- kalau mau edit silahkan kabarin saya dulu 
-- glhf :D
+## Setup
+* copy file tesseract train data kedalam tesseract repository anda
+* pastikan kode berada pada drive sama dengan repository tesseract (windows ONLY)
+* jalankan: python gui.py
+* pilih file dalam src (NIK yang sudah di crop)
+* data tersimpan di output.txt (version 0.1: data masih simpan satu satu)
