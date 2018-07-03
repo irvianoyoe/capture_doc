@@ -1,9 +1,9 @@
 # KTP OCR NIK extractor with GUI
 melakukan ekstraksi data NIK kedalam angka yang disimpan dalam output.txt menggunakan tesseract custom hasil train image sendiri
-scr: KTP hasil scan
-out: data NIK
+* scr: KTP hasil scan
+* out: data NIK
 
-## depedency
+## Depedency
 * python 3.x
 * opencv-python
 * pytesseract
