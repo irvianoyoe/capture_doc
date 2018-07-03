@@ -8,4 +8,6 @@
 ## run on tesseract
 * tesseract (input) stdout -l ind
 
-referensi code: http://yeephycho.github.io/2016/08/15/image-data-in-tensorflow/
+## referensi code train tesseract: 
+1. http://pretius.com/how-to-prepare-training-files-for-tesseract-ocr-and-improve-characters-recognition/
+2. https://github.com/tesseract-ocr/tesseract/wiki/Training-Tesseract-3.03%E2%80%933.05
