@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # #
-# A GUI for Capture Document #
+# Capture Document with GUI #
 # #
-# version 1.0 #
+# version 2.0.a #
 # Created by kevin.kristian #
 # #
 import wx
@@ -14,16 +14,34 @@ import imutils
 import numpy as np
 from imutils import contours
 
+class TabOne(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        button = wx.Button(self, wx.ID_ANY, 'Select Folder', (50, 10))
+        button.Bind(wx.EVT_BUTTON, onButton_dir)
+        w = button.GetDefaultSize().GetWidth()
+        buttontwo = wx.Button(self, wx.ID_ANY, 'Select File', (w+60, 10))
+        buttontwo.Bind(wx.EVT_BUTTON, onButton_file)
+
+class TabTwo(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        t = wx.StaticText(self, -1, "This is the second tab", (20,20))
+
 class MyForm(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(self, None,wx.ID_ANY, 'Capture_Dokumen.py')
-		self.SetDimensions(0,0,300,100)
+		self.SetDimensions(0,0,300,120)
 		panel = wx.Panel(self, wx.ID_ANY)
-		button = wx.Button(panel, wx.ID_ANY, 'Select Folder', (50, 10))
-		button.Bind(wx.EVT_BUTTON, onButton_dir)
-		w = button.GetDefaultSize().GetWidth()
-		buttontwo = wx.Button(panel, wx.ID_ANY, 'Select File', (w+60, 10))
-		buttontwo.Bind(wx.EVT_BUTTON, onButton_file)
+		nb = wx.Notebook(panel)
+		tab1 = TabOne(nb)
+		tab2 = TabTwo(nb)
+		nb.AddPage(tab1, "NIK")
+		nb.AddPage(tab2, "Nama")
+		sizer = wx.BoxSizer()
+		sizer.Add(nb, 1, wx.EXPAND)
+		panel.SetSizer(sizer)
+		
 #----------------------------------------------------------------------
 def crop_ktp(image):
 	rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 7))
