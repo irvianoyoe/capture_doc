@@ -1,32 +1,23 @@
-# Capture_doc
-github Project Capture Dokumen Magang PT Premier Optima Sattiga
+# Capture_doc Support
+support for cropping and transforming dokumen
 
 ## Progress
 ### ktp 
-- [x] cropping 
-- [ ] enhance image 
-- [x] created dataset #*di folder dataset* 
-- [ ] deep learning 
-### srut
-- [x] cropping 
-- [ ] enhance image 
-- [ ] created dataset 
-- [ ] deep learning 
-### hasil cek fisik kendaraan
-- [ ] cropping 
-- [ ] enhance image 
-- [ ] created dataset 
-- [ ] deep learning 
+- [x] cropping NIK
+- [x] tranform image NIK
+- [x] cropping Nama
+- [x] tranform image Nama
+### srut *discontinue*
+### hcfkb *discontinue*
 
-## Run 
+## Run version 1.0
 1. python module.py #*cropping_ktp*
 2. python module_2.py #*transfomasi_ktp_hitam_putih*
 3. python module_3.py #*enhance_dan_bikin_dataset*
 
+## Run version 2.0 (added nama)
+1. python crop_nik_nama.py  
+2. python tranform_nik_nama.py
+
 ## Note 
-- please use it with resposible
-- monggo di git clone
-- kalau mau make github ini silahkan gunakan branch lain (selain master) git checkout `<branchname>`
-- branch master digunakan untuk update kodingan saya saja 
-- kalau mau edit silahkan kabarin saya dulu 
-- glhf :D
+- firstly coded, built from scratch, crop and tranform
