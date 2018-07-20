@@ -2,7 +2,7 @@
 # #
 # Capture Document with GUI #
 # #
-# version 2.0.a #
+# version 2.1 #
 # Created by kevin.kristian #
 # #
 import wx
@@ -36,8 +36,8 @@ class MyForm(wx.Frame):
 		nb = wx.Notebook(panel)
 		tab1 = TabOne(nb)
 		tab2 = TabTwo(nb)
-		nb.AddPage(tab1, "NIK")
-		nb.AddPage(tab2, "Nama")
+		nb.AddPage(tab1, "KTP")
+		nb.AddPage(tab2, "Log")
 		sizer = wx.BoxSizer()
 		sizer.Add(nb, 1, wx.EXPAND)
 		panel.SetSizer(sizer)
@@ -47,7 +47,7 @@ def crop_ktp(image):
 	rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 7))
 	sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	inv = cv2.threshold(gray, 127, 250, cv2.THRESH_BINARY_INV)[1]
+	inv = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV)[1]
 	tophat = cv2.morphologyEx(inv, cv2.MORPH_TOPHAT, rectKernel)
 	gradX = cv2.Sobel(tophat, ddepth=cv2.CV_32F, dx=1, dy=0,ksize=-1)
 	gradX = np.absolute(gradX)
@@ -64,34 +64,35 @@ def crop_ktp(image):
 	locs = []
 	for (i, c) in enumerate(cnts):
 		(x, y, w, h) = cv2.boundingRect(c)
+		if (w > 100 and w < 400) and (h > 11 and h < 22 and (y > 100 and y < 125)):
+			locs.append((x, y, w, h))
 		if (w > 280 and w < 290) and (h > 15 and h < 45):
 			locs.append((x, y, w, h))
 	(x,y,w,h) = locs[0]
-	return image[y:y+h,x:x+w]
+	nama = image[y-5:y+h+5,x+3:x+w+3]
+	(x,y,w,h) = locs[1]
+	nik = image[y-5:y+h+5,x-3:x+w+3]
+	return (nama,nik)
 
-def reshape_transform_image(image):
-	image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	image = cv2.medianBlur(image,3)
-	kernel = np.ones((2,2),np.uint8)
-	ret,thresh1 = cv2.threshold(image,127,255,cv2.THRESH_BINARY)
-	image = cv2.bitwise_not(thresh1)
-	erosion = cv2.erode(image,kernel,iterations = 1)
-	dilation = cv2.dilate(erosion,kernel,iterations = 1)
-	blur2 = cv2.GaussianBlur(dilation,(3,3),0)
-	h = image.shape[0]
-	w = image.shape[1]
-	border = int((40-h)/2)
-	if h<30:
-		image = cv2.copyMakeBorder(blur2, border, border, 10, 10, cv2.BORDER_CONSTANT, None, 0)
-	if h<40:
-		image = cv2.copyMakeBorder(blur2, border, border, 10, 10, cv2.BORDER_CONSTANT, None, 0)
-	else:
-		image = cv2.copyMakeBorder(blur2, 0, 0, 10, 10, cv2.BORDER_CONSTANT, None, 0)
+def reshape_transform_image(img):
+	img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	height, width = img.shape[:2]
+	res = cv2.resize(img,(3*width, 3*height), interpolation= cv2.INTER_LINEAR )
+	kernel = np.ones((2,2),np.float32)
+	ret,thresh1 = cv2.threshold(res,100,255,cv2.THRESH_BINARY)
+	img = cv2.bitwise_not(thresh1)
+	image = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
 	return image
 
-def writeNum(image):
+def writeNum(image, flag):
     f = open("output.txt",'a')
-    text = pytesseract.image_to_string(image,lang='ind')
+    if (flag == 1):
+    	bahasa = 'ind'
+    elif (flag == 0):
+    	bahasa = 'nama'
+    else:
+    	bahasa = 'eng'
+    text = pytesseract.image_to_string(image,lang=bahasa)
     f.write(text+'\n')
     f.close()
     return text
@@ -105,13 +106,17 @@ def onButton_dir(event):
 	else:
 	    print("folder_path: "+ dlg.GetPath())
 	    images = [cv2.imread(file) for file in glob.glob(dlg.GetPath()+"/*.jpg")]
-	    print('NIK_reader: ')
+	    print('NIK_reader: \n')
 	    for image in images:
-	    	image = crop_ktp(image)
-	    	show = image
-	    	image = reshape_transform_image(image)
-	    	t = writeNum(image)
-	    	print(':-'+t)
+	    	(nama,nik) = crop_ktp(image)
+	    	show = nik
+	    	nama = reshape_transform_image(nama)
+	    	nik = reshape_transform_image(nik)
+	    	t_nama = writeNum(nama,0)
+	    	t_nik = writeNum(nik,1)
+	    	print('nik:-'+t_nik)
+	    	print('a/n:-'+t_nama)
+	    	print('\n')
 	    	cv2.imshow('show',show)
 	    	cv2.waitKey(0)
 	    wx.MessageBox('Hasil di Output.txt', 'Done!', wx.OK | wx.ICON_INFORMATION)
@@ -127,11 +132,14 @@ def onButton_file(event):
 		print("file_path: "+ openFileDialog.GetPath())
 		print('NIK_reader: ')
 		image = cv2.imread(openFileDialog.GetPath())
-		image = crop_ktp(image)
-		show = image
-		image = reshape_transform_image(image)
-		t = writeNum(image)
-		print(':-'+t)
+		(nama,nik) = crop_ktp(image)
+		show = nik
+		nama = reshape_transform_image(nama)
+		nik = reshape_transform_image(nik)
+		t_nama = writeNum(nama,0)
+		t_nik = writeNum(nik,1)
+		print('nik:-'+t_nik)
+		print('a/n: '+t_nama)
 		cv2.imshow('show',show)
 		cv2.waitKey(0)
 		wx.MessageBox('Hasil di Output.txt', 'Done!', wx.OK | wx.ICON_INFORMATION)
