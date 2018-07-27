@@ -2,7 +2,7 @@
 # #
 # Capture Document with GUI #
 # #
-# version 2.1 #
+# version 2.3 #
 # Created by kevin.kristian #
 # #
 import wx
@@ -44,10 +44,10 @@ class MyForm(wx.Frame):
 		
 #----------------------------------------------------------------------
 def crop_ktp(image):
-	rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 7))
-	sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+	rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (12, 4))
+	sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	inv = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV)[1]
+	inv = cv2.threshold(gray, 90, 255, cv2.THRESH_BINARY_INV)[1]
 	tophat = cv2.morphologyEx(inv, cv2.MORPH_TOPHAT, rectKernel)
 	gradX = cv2.Sobel(tophat, ddepth=cv2.CV_32F, dx=1, dy=0,ksize=-1)
 	gradX = np.absolute(gradX)
@@ -64,12 +64,14 @@ def crop_ktp(image):
 	locs = []
 	for (i, c) in enumerate(cnts):
 		(x, y, w, h) = cv2.boundingRect(c)
-		if (w > 100 and w < 400) and (h > 11 and h < 22 and (y > 100 and y < 125)):
+		if (w > 100 and w < 400) and (h > 10 and h < 22) and (y > 100 and y < 135):
 			locs.append((x, y, w, h))
-		if (w > 280 and w < 290) and (h > 15 and h < 45):
+		if (w > 280 and w < 300) and (h >= 20 and h < 31):
 			locs.append((x, y, w, h))
+	while(len(locs) > 2):
+		locs.pop(0)
 	(x,y,w,h) = locs[0]
-	nama = image[y-5:y+h+5,x+3:x+w+3]
+	nama = image[y-5:y+h,x+5:x+w+3]
 	(x,y,w,h) = locs[1]
 	nik = image[y-5:y+h+5,x-3:x+w+3]
 	return (nama,nik)
@@ -78,11 +80,12 @@ def reshape_transform_image(img):
 	img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	height, width = img.shape[:2]
 	res = cv2.resize(img,(3*width, 3*height), interpolation= cv2.INTER_LINEAR )
-	kernel = np.ones((2,2),np.float32)
-	ret,thresh1 = cv2.threshold(res,100,255,cv2.THRESH_BINARY)
-	img = cv2.bitwise_not(thresh1)
-	image = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
-	return image
+	kernel = np.ones((2,2),np.float32)/10
+	ret,thresh1 = cv2.threshold(res,100,255,cv2.THRESH_BINARY_INV)
+	image = cv2.morphologyEx(thresh1, cv2.MORPH_CLOSE, kernel)
+	#dst = cv2.filter2D(image,-1,kernel)
+	opening = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+	return opening
 
 def writeNum(image, flag):
     f = open("output.txt",'a')
